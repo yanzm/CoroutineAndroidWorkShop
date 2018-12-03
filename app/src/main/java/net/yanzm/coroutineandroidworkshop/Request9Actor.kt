@@ -1,16 +1,20 @@
 package net.yanzm.coroutineandroidworkshop
 
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
-import kotlin.coroutines.*
 
 fun CoroutineScope.aggregatorActor(
     uiUpdateActor: SendChannel<List<User>>
 ) = actor<List<User>> {
     var contribs: List<User> = emptyList() // STATE
     for (users in channel) {
-        contribs = (contribs + users).aggregateSlow()
+        // TODO: :UPDATE STATE:
         uiUpdateActor.send(contribs)
     }
 }
@@ -26,10 +30,7 @@ fun CoroutineScope.workerJob(
     aggregator: SendChannel<List<User>>
 ) = launch {
     for (req in requests) {
-        val users = req.service.listRepoContributors(req.org, req.repo).await()
-
-        Timber.i("${req.repo}: loaded ${users.size} contributors")
-
+        val users = TODO()
         aggregator.send(users)
     }
 }
@@ -53,6 +54,5 @@ suspend fun loadContributorsActor(req: RequestData, uiUpdateActor: SendChannel<L
         requests.send(WorkerRequest(service, req.org, repo.name))
     }
     requests.close()
-    workers.joinAll()
-    aggregator.close()
+    // TOOD: join workers & complete
 }

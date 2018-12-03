@@ -30,7 +30,6 @@ import net.yanzm.coroutineandroidworkshop.Variant.GATHER
 import net.yanzm.coroutineandroidworkshop.Variant.PROGRESS
 import timber.log.Timber
 import java.util.concurrent.CompletableFuture
-import kotlin.concurrent.thread
 import kotlin.coroutines.CoroutineContext
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
@@ -80,12 +79,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 updateResults(users)
             }
             BACKGROUND -> { // Blocking a background thread
-                thread {
-                    val users = loadContributorsBlocking(req)
-                    runOnUiThread {
-                        updateResults(users)
-                    }
-                }
+                TODO()
             }
             CALLBACKS -> { // Using callbacks
                 loadContributorsCallbacks(req) { users ->

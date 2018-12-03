@@ -1,8 +1,11 @@
 package net.yanzm.coroutineandroidworkshop
 
-import kotlinx.coroutines.*
-import retrofit2.*
-import kotlin.coroutines.*
+import kotlinx.coroutines.suspendCancellableCoroutine
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 suspend fun <T> Call<T>.await(): T = suspendCancellableCoroutine { cont ->
     enqueue(object : Callback<T> {
@@ -18,9 +21,7 @@ suspend fun <T> Call<T>.await(): T = suspendCancellableCoroutine { cont ->
             cont.resumeWithException(t)
         }
     })
-    cont.invokeOnCancellation {
-        cancel()
-    }
+    // TODO : add cancellation
 }
 
 class ErrorResponse(response: Response<*>) : Exception(
