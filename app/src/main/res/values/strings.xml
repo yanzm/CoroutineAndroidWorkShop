@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">CoroutineAndroidWorkShop</string>
+    <string name="user_name">GitHub Username</string>
+    <string name="token">Password/Token</string>
+    <string name="organization">Organization</string>
+    <string name="variant">Variant</string>
+    <string name="load_contributors">Load contributors</string>
+    <string name="cancel">Cancel</string>
+    <string name="event_thread_is_active">Event thread is active</string>
+</resources>
